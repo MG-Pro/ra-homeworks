@@ -11,7 +11,7 @@ const ShopItem = item => {
       </div>
       <div className='divider'></div>
       <div className='purchase-info'>
-        <div className='price'>{currency}{price}</div>
+        <div className='price'>{currency}{price.toFixed(2)}</div>
         <button>Добавить в корзину</button>
       </div>
     </div>
