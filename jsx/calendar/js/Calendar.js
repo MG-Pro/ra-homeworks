@@ -2,9 +2,6 @@ const Calendar = props => {
   const {date} = props;
   const dateGenitive = date.toLocaleDateString('ru-RU', {day: 'numeric', month: 'long'});
 
-  const d = new Date(2017, 4, 19);
-  console.log(d);
-
   const main = (
     <div className = 'ui-datepicker'>
       <div className = 'ui-datepicker-material-header'>
@@ -44,8 +41,50 @@ const Calendar = props => {
           })}
         </tr>
         </thead>
+        <tbody>
+          {getDay(date)}
+        </tbody>
       </table>
     </div>
   );
   return main;
 };
+
+function getDay(date) {
+  //debugger;
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  const firstMonthDay = firstDay.getDay();
+  const firstWeekDayTime = firstDay.getTime();
+  const firstWeekDay = firstMonthDay - 1;
+  const oneDay = 1000 * 60 * 60 * 24;
+  let target = firstWeekDayTime - oneDay * firstWeekDay;
+  console.log(date);
+  console.log(new Date(target));
+
+  debugger;
+  let m = new Date();
+  if(firstDay.getDay()){
+    m.setDate(firstDay.getDate() - firstDay.getDay())
+  } else {
+    m.setDate(firstDay.getDate() - 8)
+  }
+  //console.log(new Date(m));
+
+
+  Array.from({length: 5}).map((val, i) => {
+    return (
+      <tr>
+        {Array.from({length: 7}).map((val, i) => {
+
+          return (
+            <td>
+              {
+                date.getDate() + i
+              }
+            </td>
+          );
+        })}
+      </tr>
+    );
+  })
+}
