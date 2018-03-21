@@ -42,7 +42,7 @@ const Calendar = props => {
         </tr>
         </thead>
         <tbody>
-          {getDay(date)}
+        {getDay(date)}
         </tbody>
       </table>
     </div>
@@ -50,41 +50,51 @@ const Calendar = props => {
   return main;
 };
 
+
 function getDay(date) {
   //debugger;
   const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
   const firstMonthDay = firstDay.getDay();
   const firstWeekDayTime = firstDay.getTime();
-  const firstWeekDay = firstMonthDay - 1;
-  const oneDay = 1000 * 60 * 60 * 24;
-  let target = firstWeekDayTime - oneDay * firstWeekDay;
-  console.log(date);
-  console.log(new Date(target));
-
-  debugger;
-  let m = new Date();
-  if(firstDay.getDay()){
-    m.setDate(firstDay.getDate() - firstDay.getDay())
+  let firstWeekDay;
+  if (firstMonthDay === 0) {
+    firstWeekDay = 6;
   } else {
-    m.setDate(firstDay.getDate() - 8)
+    firstWeekDay = firstMonthDay - 1;
   }
-  //console.log(new Date(m));
+  const oneDay = 1000 * 60 * 60 * 24;
+  let firstMonday = new Date(firstWeekDayTime - oneDay * firstWeekDay);
+
+  const allDays = [];
+  for(let i = 0; i < 35; i++) {
+    //debugger;
+
+    let classDay = null;
+    let firstMondayTime = firstMonday.getTime();
+    let nextDay = (new Date(firstMondayTime + oneDay * i));
+    if (nextDay.getMonth() !== date.getMonth()) {
+      classDay = 'ui-datepicker-other-month';
+    } else if (nextDay.getDate() === date.getDate()) {
+      classDay = 'ui-datepicker-today';
+    }
+
+    allDays.push(
+      <td className = {classDay}>
+        {nextDay.getDate()}
+      </td>
+    )
+  }
+  let row = [];
+  let tr = [];
+  allDays.forEach((day) => {
 
 
-  Array.from({length: 5}).map((val, i) => {
-    return (
-      <tr>
-        {Array.from({length: 7}).map((val, i) => {
-
-          return (
-            <td>
-              {
-                date.getDate() + i
-              }
-            </td>
-          );
-        })}
-      </tr>
-    );
-  })
+    tr.push(day);
+    if (tr.length === 7) {
+       row.push(tr);
+       tr = [];
+    }
+  });
+  console.log(row);
+  return row;
 }
