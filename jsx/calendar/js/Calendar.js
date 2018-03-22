@@ -42,7 +42,7 @@ const Calendar = props => {
         </tr>
         </thead>
         <tbody>
-        {getDay(date)}
+          {getDay(date)}
         </tbody>
       </table>
     </div>
@@ -52,7 +52,6 @@ const Calendar = props => {
 
 
 function getDay(date) {
-  //debugger;
   const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
   const firstMonthDay = firstDay.getDay();
   const firstWeekDayTime = firstDay.getTime();
@@ -66,9 +65,7 @@ function getDay(date) {
   let firstMonday = new Date(firstWeekDayTime - oneDay * firstWeekDay);
 
   const allDays = [];
-  for(let i = 0; i < 35; i++) {
-    //debugger;
-
+  for (let i = 0; i < 35; i++) {
     let classDay = null;
     let firstMondayTime = firstMonday.getTime();
     let nextDay = (new Date(firstMondayTime + oneDay * i));
@@ -84,17 +81,17 @@ function getDay(date) {
       </td>
     )
   }
-  let row = [];
+
   let tr = [];
-  allDays.forEach((day) => {
-
-
+  let row = [];
+  allDays.map((day) => {
     tr.push(day);
     if (tr.length === 7) {
-       row.push(tr);
-       tr = [];
+      row.push(<tr>
+        {tr}
+      </tr>);
+      tr = [];
     }
   });
-  console.log(row);
   return row;
 }
