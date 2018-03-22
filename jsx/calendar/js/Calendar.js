@@ -53,19 +53,18 @@ const Calendar = props => {
 
 function getDay(date) {
   const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  const lastDay = new Date(date.getFullYear(), date.getMonth() - 1, 0);
+  console.log(lastDay);
   const firstMonthDay = firstDay.getDay();
   const firstWeekDayTime = firstDay.getTime();
-  let firstWeekDay;
-  if (firstMonthDay === 0) {
-    firstWeekDay = 6;
-  } else {
-    firstWeekDay = firstMonthDay - 1;
-  }
   const oneDay = 1000 * 60 * 60 * 24;
+
+  let firstWeekDay = (firstMonthDay === 0) ? 6 : firstMonthDay - 1;
   let firstMonday = new Date(firstWeekDayTime - oneDay * firstWeekDay);
 
-  const allDays = [];
-  for (let i = 0; i < 35; i++) {
+  let rows = 6;
+
+  const allDays = Array.from({length: rows * 7}).map((val, i) => {
     let classDay = null;
     let firstMondayTime = firstMonday.getTime();
     let nextDay = (new Date(firstMondayTime + oneDay * i));
@@ -75,16 +74,16 @@ function getDay(date) {
       classDay = 'ui-datepicker-today';
     }
 
-    allDays.push(
+    return (
       <td className = {classDay}>
         {nextDay.getDate()}
       </td>
     )
-  }
+  });
 
   let tr = [];
   let row = [];
-  allDays.map((day) => {
+  allDays.forEach((day) => {
     tr.push(day);
     if (tr.length === 7) {
       row.push(<tr>
