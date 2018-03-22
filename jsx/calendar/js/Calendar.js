@@ -53,16 +53,14 @@ const Calendar = props => {
 
 function getDay(date) {
   const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-  const lastDay = new Date(date.getFullYear(), date.getMonth() - 1, 0);
-  console.log(lastDay);
   const firstMonthDay = firstDay.getDay();
   const firstWeekDayTime = firstDay.getTime();
   const oneDay = 1000 * 60 * 60 * 24;
 
-  let firstWeekDay = (firstMonthDay === 0) ? 6 : firstMonthDay - 1;
-  let firstMonday = new Date(firstWeekDayTime - oneDay * firstWeekDay);
+  const firstWeekDay = (firstMonthDay === 0) ? 6 : firstMonthDay - 1;
+  const firstMonday = new Date(firstWeekDayTime - oneDay * firstWeekDay);
 
-  let rows = 6;
+  const rows = 6;
 
   const allDays = Array.from({length: rows * 7}).map((val, i) => {
     let classDay = null;
