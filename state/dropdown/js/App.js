@@ -1,33 +1,34 @@
-var App = React.createClass({
-  defaultProps: {
-    options: []
-  },
-  getInitialState: function () {
-    return {
-      active: this.props.options[0],
-      open: false
+class App extends React.Component {
+  constructor() {
+    super();
+    this.props = {
+      options: []
     };
-  },
-  handleChange: function (option) {
+    this.state = {
+      open: false,
+      active: this.props.options[0]
+    }
+  }
+  handleChange(option) {
     this.setState({
       active: option
     });
-  },
-  toggleOpen: function () {
+  }
+  toggleOpen() {
     this.setState({
       open: !this.state.open
     });
-  },
-  render: function () {
+  }
+  render() {
     return (
       <div className="container">
         <div className={`dropdown-wrapper ${this.state.open ? "open" : ""}`} >
-          <button className={"btn"} onClick={this.toggleOpen} >
+          <button className={"btn"} onClick={() => this.toggleOpen()} >
             <span>Account Settings</span>
             <i className="material-icons">public</i>
           </button>
           <ul className="dropdown">
-            {this.props.options.map((option, i) => (
+            {this.props.options.map((option) => (
               <li
                 className={option === this.state.active ? "active" : ""}
                 onClick={() => this.handleChange(option)} >
@@ -39,4 +40,4 @@ var App = React.createClass({
       </div>
     );
   }
-});
+}
