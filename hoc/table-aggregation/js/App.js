@@ -21,9 +21,9 @@ class App extends React.Component {
     const { TableWrapMonth, TableWrapYear, TableWrapSort } = this;
     return (
       <div id = "app">
-        <TableWrapMonth list = {this.state.list} />
-        <TableWrapYear list = {this.state.list} />
-        <TableWrapSort list = {this.state.list} />
+        <TableWrapMonth list = {this.state.list} type = 'month'/>
+        <TableWrapYear list = {this.state.list} type = 'year'/>
+        <TableWrapSort list = {this.state.list} type = 'sort'/>
       </div>
     );
   }
@@ -33,17 +33,39 @@ class App extends React.Component {
 
 function tableWrap(Component) {
   return class extends React.Component {
-    render() {
-      console.log(this, Component.name);
-      const list = this.props.list.map(item => {
-        const element = {};
-        element.month = (new Date(item.date)).toLocaleString('en-us', { month: "short" });
-        element.amount = item.amount;
-        return element;
-      });
-      return <Component list = {list}/>
+    constructor(props) {
+      super(props);
+      this.state = {
+        type: this.props.type
+      };
     }
 
+    getDataType() {
+      const type = this.state.type;
+      if(type === 'month') {
+        return this.props.list.map(item => {
+          const element = {};
+          element[type] = (new Date(item.date)).toLocaleString('en-us', { month: "short" });
+          element.amount = item.amount;
+          return element;
+        });
+      } else if(type === 'year') {
+        return this.props.list.map(item => {
+          const element = {};
+          element[type] = (new Date(item.date)).getFullYear();
+          element.amount = item.amount;
+          return element;
+        });
+      } else if (type === 'sort') {
+        return this.props.list.sort((a, b) => {
+          return a.date > b.date
+        })
+      }
+    }
+
+    render() {
+      return <Component list = {this.getDataType() || null}/>
+    }
   }
 }
 
