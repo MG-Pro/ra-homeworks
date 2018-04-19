@@ -17,34 +17,29 @@ class App extends React.Component {
   render() {
     return (
       <div id = "app">
-        <SortTableWrap>
-          <MonthTable list = {this.state.list}/>
-          <YearTable list = {this.state.list}/>
-          <SortTable list = {this.state.list}/>
-        </SortTableWrap>
+        <TableWrapComp list = {this.state.list} />
       </div>
     );
   }
 }
 
-class SortTableWrap extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      children: this.props.children
-    }
-  }
+const TableWrapComp = tableWrap(MonthTable);
 
-  componentDidUpdate() {
-    const children = this.props.children.map(item => {
-      console.log(item);
-       item.props.list
+function tableWrap(Component) {
+  return function (props, ...args) {
+    const list = props.list.map(item => {
+      const element = {};
+      element.month = (new Date(item.date)).getMonth();
+      element.amount = item.amount;
+      return element;
     });
+    return Component.apply(this, [list, ...args])
   }
-
-
-  render() {
-    return this.props.children;
-  }
-
 }
+
+
+
+
+
+
+
