@@ -6,7 +6,9 @@ class App extends React.Component {
     this.state = {
       list: []
     };
-    this.TableWrapComp = tableWrap(MonthTable);
+    this.TableWrapMonth = tableWrap(MonthTable);
+    this.TableWrapYear = tableWrap(YearTable);
+    this.TableWrapSort = tableWrap(SortTable);
   }
 
   componentDidMount() {
@@ -16,10 +18,12 @@ class App extends React.Component {
   }
 
   render() {
-    const { TableWrapComp } = this;
+    const { TableWrapMonth, TableWrapYear, TableWrapSort } = this;
     return (
       <div id = "app">
-        <TableWrapComp list = {this.state.list} />
+        <TableWrapMonth list = {this.state.list} />
+        <TableWrapYear list = {this.state.list} />
+        <TableWrapSort list = {this.state.list} />
       </div>
     );
   }
@@ -30,7 +34,7 @@ class App extends React.Component {
 function tableWrap(Component) {
   return class extends React.Component {
     render() {
-      console.log(this);
+      console.log(this, Component.name);
       const list = this.props.list.map(item => {
         const element = {};
         element.month = (new Date(item.date)).toLocaleString('en-us', { month: "short" });
