@@ -1,11 +1,12 @@
 'use strict';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor(...props) {
+    super(...props);
     this.state = {
       list: []
     };
+    this.TableWrapComp = tableWrap(MonthTable);
   }
 
   componentDidMount() {
@@ -15,6 +16,7 @@ class App extends React.Component {
   }
 
   render() {
+    const { TableWrapComp } = this;
     return (
       <div id = "app">
         <TableWrapComp list = {this.state.list} />
@@ -23,17 +25,21 @@ class App extends React.Component {
   }
 }
 
-const TableWrapComp = tableWrap(MonthTable);
+
 
 function tableWrap(Component) {
-  return function (props, ...args) {
-    const list = props.list.map(item => {
-      const element = {};
-      element.month = (new Date(item.date)).getMonth();
-      element.amount = item.amount;
-      return element;
-    });
-    return Component.apply(this, [list, ...args])
+  return class extends React.Component {
+    render() {
+      console.log(this);
+      const list = this.props.list.map(item => {
+        const element = {};
+        element.month = (new Date(item.date)).toLocaleString('en-us', { month: "short" });
+        element.amount = item.amount;
+        return element;
+      });
+      return <Component list = {list}/>
+    }
+
   }
 }
 
