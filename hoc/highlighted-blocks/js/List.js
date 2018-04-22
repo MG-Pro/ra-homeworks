@@ -4,36 +4,35 @@ const List = props => {
   return props.list.map(item => {
     switch (item.type) {
       case 'video':
-        return (
-          <ViewsWrap views = {item.views}>
-            <Video {...item} />
-          </ViewsWrap>
-        );
+        return <VideoWrapComp {...item} views = {item.views}/>;
 
       case 'article':
-        return (
-          <ViewsWrap views = {item.views}>
-            <Article {...item} />
-          </ViewsWrap>
-        );
+        return <ArticleWrapComp {...item} views = {item.views}/>;
     }
   });
 };
 
-const ViewsWrap = props => {
-  if (props.views >= 1000) {
-    return (
-      <Popular>
-        {props.children}
-      </Popular>
-    );
-  } else if (props.views <= 100) {
-    return (
-      <New>
-        {props.children}
-      </New>
-    );
-  } else {
-    return props.children;
-  }
-};
+const VideoWrapComp = viewsWrap(Video);
+const ArticleWrapComp = viewsWrap(Article);
+
+function viewsWrap(Component) {
+
+  return (props, ...args) => {
+    if (props.views >= 1000) {
+      return (
+        <Popular>
+          {Component.apply(this, [props, ...args])}
+        </Popular>
+      );
+    } else if (props.views <= 100) {
+      return (
+        <New>
+          {Component.apply(this, [props, ...args])}
+        </New>
+      );
+    } else {
+      return Component.apply(this, [props, ...args])
+    }
+  };
+}
+
