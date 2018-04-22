@@ -15,7 +15,7 @@ class App extends React.Component {
     });
     this.setState({
       filter: filter,
-      projects: filtered
+      projects: filtered.length !== 0 ? filtered : this.props.projects
     });
   };
 
