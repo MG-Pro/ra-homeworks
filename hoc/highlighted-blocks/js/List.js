@@ -16,23 +16,24 @@ const VideoWrapComp = viewsWrap(Video);
 const ArticleWrapComp = viewsWrap(Article);
 
 function viewsWrap(Component) {
-
-  return (props, ...args) => {
-    if (props.views >= 1000) {
-      return (
-        <Popular>
-          {Component.apply(this, [props, ...args])}
-        </Popular>
-      );
-    } else if (props.views <= 100) {
-      return (
-        <New>
-          {Component.apply(this, [props, ...args])}
-        </New>
-      );
-    } else {
-      return Component.apply(this, [props, ...args])
+  return class extends React.Component {
+    render() {
+      if (this.props.views >= 1000) {
+        return (
+          <Popular>
+            <Component  {...this.props}/>
+          </Popular>
+        );
+      } else if (this.props.views <= 100) {
+        return (
+          <New>
+            <Component  {...this.props}/>
+          </New>
+        );
+      } else {
+        return <Component  {...this.props}/>
+      }
     }
-  };
+  }
 }
 
