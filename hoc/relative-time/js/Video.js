@@ -12,8 +12,9 @@ const Video = props => {
 const DateTimePretty = dateTimeHoc(DateTime);
 
 function dateTimeHoc(Component) {
-  return (props, ...args) => {
-    function getPublicTime(date) {
+  return class extends React.Component {
+
+     getPublicTime(date) {
       const time = (Date.now() - (new Date(date)).getTime()) / 1000 / 60 / 60;
       if(time < 1) {
         return'12 минут назад';
@@ -23,6 +24,10 @@ function dateTimeHoc(Component) {
         return 'X дней назад'
       }
     }
-    return <Component date = {getPublicTime(props.date)} />;
+
+    render() {
+      return <Component date = {this.getPublicTime(this.props.date)} />;
+    }
+
   };
 }
