@@ -18,7 +18,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { TableWrapMonth, TableWrapYear, TableWrapSort } = this;
+    const {TableWrapMonth, TableWrapYear, TableWrapSort} = this;
     return (
       <div id = "app">
         <TableWrapMonth list = {this.state.list} type = 'month'/>
@@ -29,8 +29,6 @@ class App extends React.Component {
   }
 }
 
-
-
 function tableWrap(Component) {
   return class extends React.Component {
     constructor(props) {
@@ -40,38 +38,42 @@ function tableWrap(Component) {
       };
     }
 
-    getDataType() {
-      const type = this.state.type;
-      if(type === 'month') {
-        return this.props.list.map(item => {
-          const element = {};
-          element[type] = (new Date(item.date)).toLocaleString('en-us', { month: "short" });
-          element.amount = item.amount;
-          return element;
-        });
-      } else if(type === 'year') {
-        return this.props.list.map(item => {
-          const element = {};
-          element[type] = (new Date(item.date)).getFullYear();
-          element.amount = item.amount;
-          return element;
-        });
+    getDataType(type) {
+      if (type === 'month') {
+        return groupBy(this.props.list, type);
+      } else if (type === 'year') {
+        return groupBy(this.props.list, type);
       } else if (type === 'sort') {
         return this.props.list.sort((a, b) => {
-          return a.date > b.date
-        })
+          return (new Date(b.date)) - (new Date(a.date));
+        });
       }
     }
 
     render() {
-      return <Component list = {this.getDataType() || null}/>
+      return <Component list = {this.getDataType(this.state.type) || []}/>
     }
   }
 }
 
+function groupBy(list, param) {
+  return list.reduce((result, item) => {
+    const metod = param === 'month' ?
+      (new Date(item.date)).toLocaleString('en-us', {month: "short"}) :
+      (new Date(item.date)).getFullYear();
 
+    let curElem = result.find(resItem => {
+      return resItem[param] === metod;
+    });
 
-
+    if (curElem) {
+      curElem.amount += item.amount;
+    } else {
+      result.push({[param]: metod, amount: item.amount});
+    }
+    return result;
+  }, []);
+}
 
 
 
