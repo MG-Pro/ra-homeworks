@@ -5,7 +5,7 @@ class SearchBox extends React.Component {
     this.state = { fixed: false };
   }
 
-  scrollHandler() {
+  scrollHandler = () => {
     this.setPosition(this.isFixed(window.pageYOffset));
   }
 
@@ -20,10 +20,10 @@ class SearchBox extends React.Component {
     });
   }
   componentDidMount() {
-    window.addEventListener('scroll', this.scrollHandler.bind(this));
+    window.addEventListener('scroll', this.scrollHandler);
   }
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.scrollHandler.bind(this));
+    window.removeEventListener('scroll', this.scrollHandler);
   }
 
 
