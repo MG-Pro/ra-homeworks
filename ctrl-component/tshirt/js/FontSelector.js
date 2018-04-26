@@ -1,8 +1,12 @@
-const FontSelector = ({fonts, selectedFont, onSelect}) => {
+const FontSelector = ({fonts,  onSelect, selected}) => {
   return (
     <div className = "font-picker">
       {fonts.map((item) => {
-        return <FontItem item = {item} onSelect = {onSelect}/>
+        let isSelected = false;
+        if (selected) {
+          isSelected = selected.name === item.name;
+        }
+        return <FontItem item = {item} onSelect = {onSelect} checked = {isSelected}/>
       })}
     </div>
   )
@@ -18,7 +22,7 @@ const FontItem = props => {
   return (
     <div className = "grid center font-item">
       <input type = "radio" name = "font" value = {name} id = {name} onChange = {inputHandler}
-        ref = {() => font = props.item}/>
+        ref = {() => font = props.item} defaultChecked={props.checked}/>
       <label htmlFor = {name} className = "grid-1">
         <PictureFont text = {name.replace(name[name.length - 1], '')} path = {path}/>
       </label>
