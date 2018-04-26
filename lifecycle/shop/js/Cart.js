@@ -13,6 +13,9 @@ class Cart extends React.Component {
   }
 
   render() {
+    if(!this.state.isOpen) {
+      return null;
+    }
     return (
       <CartView {...this.props} isOpen = {this.state.isOpen}/>
     );
