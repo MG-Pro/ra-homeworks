@@ -28,7 +28,7 @@ const AuthForm = props => {
   }
 
   return (
-    <form className = "ModalForm" action = "/404/auth/" method = "POST" ref = {elem => form = elem}>
+    <form className = "ModalForm" action = "/404/auth/" method = "POST" ref = {elem => form = elem} onSubmit = {submit}>
       <div className = "Input">
         <input required type = "text" placeholder = "Имя" name = "name"/>
         <label/>
@@ -41,11 +41,10 @@ const AuthForm = props => {
         <input required type = "password" placeholder = "Пароль" onChange = {checkInput} name = "pass"/>
         <label/>
       </div>
-      <button type = "submit" onClick = {submit}>
+      <button type = "submit" >
         <span>Войти</span>
         <i className = "fa fa-fw fa-chevron-right"/>
       </button>
     </form>
-
   );
 };
