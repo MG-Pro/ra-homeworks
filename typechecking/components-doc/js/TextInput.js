@@ -12,10 +12,11 @@ const TextInput = props => {
 
 TextInput.propTypes = {
   type: PropTypes.string,
-  label: PropTypes.string,
-  name: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   required: PropTypes.bool,
   value: PropTypes.oneOfType(
     [PropTypes.number, PropTypes.string]
-  )
+  ),
+  onChange: PropTypes.func.isRequired,
 };
