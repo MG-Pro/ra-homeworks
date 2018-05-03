@@ -27,3 +27,41 @@ const Profile = props => {
     </div>
   );
 };
+
+Profile.defaultProps = {
+  img: './images/profile.jpg'
+};
+
+Profile.propTypes = {
+  url: function(props, propName, componentName) {
+    let url = props[propName];
+    let valid = (typeof url === 'string') &&
+      /https:\/\/vk\.com\/(id\d+|[\w-]+)/.test(url);
+    if(!valid) {
+      return new Error(`Неверное значение '${props[propName]}' параметра ${propName} в компоненте ${componentName}`);
+    }
+    return null;
+  },
+  birthday: function(props, propName, componentName) {
+    let date = props[propName];
+    if(!date) {
+      return null;
+    }
+    let valid = true;
+    if(typeof date === 'string' && date.split('-').length === 3) {
+      date = date.split('-');
+      date = new Date(date[0], date[1], date[2]);
+      if(date.getTime() >= (new Date()).getTime()) {
+        valid = false;
+      }
+    } else {
+      valid = false;
+    }
+
+    if(!valid) {
+      return new Error(`Неверное значение '${props[propName]}' параметра ${propName} в компоненте ${componentName}`);
+    }
+  },
+  first_name: PropTypes.string,
+  last_name: PropTypes.string
+};
