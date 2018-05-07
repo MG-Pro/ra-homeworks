@@ -2,15 +2,15 @@ class SubscribeForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      isValid: false
+      isValid: true
     }
   }
 
-  validate() {
+  validate = (e) => {
     this.setState({
-      isValid: this.input.validity.valid
+      isValid: e.currentTarget.validity.valid
     })
-  }
+  };
 
   render() {
     return (
@@ -24,8 +24,7 @@ class SubscribeForm extends React.Component {
               id = "input-email"
               placeholder = "Email"
               className = "form-control"
-              ref={input => this.input = input}
-              onChange={this.validate.bind(this)}
+              onChange={this.validate}
             />
             <div className = "form-error">Пожалуйста, проверьте корректность адреса электронной почты</div>
             <button type = "submit" className = "form-next">
