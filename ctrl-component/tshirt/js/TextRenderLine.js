@@ -1,7 +1,12 @@
 const TextRenderLine = ({value, onChange}) => {
-  let elem;
-  const changeHandler = () => {
-    onChange(elem.value)
+  const changeHandler = (e) => {
+    let val = e.currentTarget.value;
+    const regex = /^[\a-z\s]+$/i;
+    if(!regex.test(val)) {
+      val = val.replace(val[val.length - 1], '');
+    }
+    val = val.toLowerCase();
+    onChange(val)
   };
 
   return (
@@ -13,8 +18,7 @@ const TextRenderLine = ({value, onChange}) => {
         rows = "2"
         placeholder = "Введите текст для футболки"
         onChange = {changeHandler}
-        ref = {val => elem = val}
-        value = {value}/>
+        value = {value} />
     </div>
   );
 };

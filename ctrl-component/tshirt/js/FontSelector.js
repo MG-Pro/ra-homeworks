@@ -2,11 +2,7 @@ const FontSelector = ({fonts,  onSelect, selected}) => {
   return (
     <div className = "font-picker">
       {fonts.map((item) => {
-        let isSelected = false;
-        if (selected) {
-          isSelected = selected.name === item.name;
-        }
-        return <FontItem item = {item} onSelect = {onSelect} checked = {isSelected}/>
+        return <FontItem item = {item} onSelect = {onSelect} checked={selected && selected.name === item.name}/>
       })}
     </div>
   )
