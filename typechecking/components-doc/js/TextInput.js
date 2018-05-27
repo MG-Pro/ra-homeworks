@@ -12,8 +12,8 @@ const TextInput = props => {
 
 TextInput.propTypes = {
   type: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  name: PropTypes.string,
   required: PropTypes.bool,
   value: PropTypes.oneOfType(
     [PropTypes.number, PropTypes.string]
